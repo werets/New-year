@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Happy New Year Slideshow</title>
+
+<style>
+  body {
+    margin: 0;
+    height: 100vh;
+    background: radial-gradient(circle at bottom, #020024, #090979, #000);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-family: Arial, sans-serif;
+    color: white;
+    overflow: hidden;
+  }
+
+  h1 {
+    margin-bottom: 10px;
+    font-size: 40px;
+    animation: glow 1.5s infinite alternate;
+  }
+
+  @keyframes glow {
+    from { text-shadow: 0 0 10px gold; }
+    to { text-shadow: 0 0 30px gold; }
+  }
+
+   /* Countdown */
+  #countdown {
+    font-size: 28px;
+    margin-bottom: 15px;
+    color: gold;
+  }
+
+  .slideshow {
+    width: 320px;
+    height: 420px;
+    border-radius: 20px;
+    overflow: hidden;
+    border: 4px solid gold;
+    box-shadow: 0 0 30px gold;
+    position: relative;
+  }
+
+  .slideshow img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: absolute;
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+  }
+
+  .slideshow img.active {
+    opacity: 1;
+  }
+
+  input {
+    margin-top: 20px;
+  }
+
+  /* Snow / Confetti */
+  .confetti {
+    position: fixed;
+    top: -10px;
+    font-size: 16px;
+    animation: fall linear infinite;
+  }
+
+  @keyframes fall {
+    to {
+      transform: translateY(110vh);
+    }
+  }
+
+  
+  /* Fireworks */
+  .firework {
+   position: absolute;
+    border-radius: 50%;
+    pointer-events: none;       
+  }
+
+  @keyframes explode {
+    to {
+      transform: scale(8);
+      opacity: 0;
+    }
+  }
+
+
+  /* Music button */
+  button {
+    margin-top: 15px;
+    padding: 10px 18px;
+    border: none;
+    border-radius: 20px;
+    background: gold;
+    font-weight: bold;
+    cursor: pointer;
+  }
+
+  
+</style>
+</head>
+
+<body>
+
+<h1>🎉 Happy New Year 🎆</h1>
+<h2>REYES FAMILY</h2>
+
+<div id="countdown">Loading countdown...</div>
+
+
+<div class="slideshow" id="slideshow">
+  <img src="1.jpg" class="active">
+  <img src="2.jpg">
+  <img src="3.jpg">
+  <img src="4.jpg">
+  <img src="5.jpg">
+  <img src="6.jpg">
+  <img src="7.jpg">
+  <img src="8.jpg">
+  <img src="9.jpg">
+  <img src="10.jpg">
+  <img src="11.jpg">
+  <img src="12.jpg">
+  <img src="13.jpg">
+  <img src="14.jpg">
+  <img src="15.jpg">
+  <img src="16.jpg">
+  <img src="17.jpg">
+  <img src="18.jpg">
+  <img src="19.jpg">
+  <img src="20.jpg">
+  <img src="21.jpg">
+  <img src="22.jpg">
+  <img src="23.jpg">
+  <img src="24.jpg">
+  <img src="25.jpg">
+  <img src="26.jpg">
+  <img src="27.jpg">
+  <img src="28.jpg">
+  <img src="29.jpg">
+  <img src="30.jpg">
+  <img src="31.jpg">
+  <img src="32.jpg">
+  <img src="33.jpg">
+  <img src="34.jpg">
+  <img src="35.jpg">
+  <img src="36.jpg">
+  <img src="37.jpg">
+  <img src="38.jpg">
+  <img src="39.jpg">
+  <img src="40.jpg">
+  <img src="41.jpg">
+  <img src="42.jpg">
+  <img src="43.jpg">
+  <img src="44.jpg">
+  <img src="45.jpg">
+  <img src="46.jpg">
+  <img src="47.jpg">
+  <img src="48.jpg">
+  <img src="49.jpg">
+  <img src="50.jpg">
+  <img src="51.jpg">
+  <img src="52.jpg">
+</div>
+
+
+
+<!-- 🎶 Music -->
+<audio id="music" loop>
+  <source src="Christmas & New Year Songs.mp3" type="audio/mpeg">
+  Your browser does not support audio.
+</audio>
+
+<button onclick="toggleMusic()">🎶 Play Music</button>
+<script>
+ /* ⏰ COUNTDOWN */
+ const countdownEl = document.getElementById('countdown');
+const newYear = new Date(new Date().getFullYear() + 1, 0, 1);
+
+let spokenSeconds = {}; // Track which seconds have been spoken
+
+function speak(text) {
+  const utterance = new SpeechSynthesisUtterance(text);
+  utterance.lang = 'en-US';
+  speechSynthesis.speak(utterance);
+}
+
+function updateCountdown() {
+  const now = new Date();
+  const diff = newYear - now;
+
+  const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+  const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+  const minutes = Math.floor((diff / (1000 * 60)) % 60);
+  const seconds = Math.floor((diff / 1000) % 60);
+
+  countdownEl.textContent = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+
+  // Voice countdown in the last 30 seconds
+  if (days === 0 && hours === 0 && minutes === 0 && seconds <= 30 && !spokenSeconds[seconds]) {
+    speak(seconds.toString());
+    spokenSeconds[seconds] = true;
+  }
+
+  // Optional: celebration at zero
+  if (diff <= 0) {
+    countdownEl.textContent = "🎉 Happy New Year! Welcome 2026 🎆";
+    speak("Happy New Year! Welcome 2026");
+    clearInterval(interval);
+  }
+}
+
+const interval = setInterval(updateCountdown, 1000);
+updateCountdown();
+
+  setInterval(updateCountdown, 1000);
+  updateCountdown();
+
+   const images = document.querySelectorAll(".slideshow img");
+  let currentIndex = 0;
+
+  setInterval(() => {
+    images[currentIndex].classList.remove("active");
+    currentIndex = (currentIndex + 1) % images.length;
+    images[currentIndex].classList.add("active");
+  }, 3000);
+
+  function startSlideshow() {
+    clearInterval(slideInterval);
+    slideInterval = setInterval(() => {
+      images[currentIndex].classList.remove("active");
+      currentIndex = (currentIndex + 1) % images.length;
+      images[currentIndex].classList.add("active");
+    }, 3000);
+  }
+
+ /* 🎇 FIREWORKS */
+  function fireworks() {
+    const fw = document.createElement("div");
+    fw.className = "firework";
+    firework.style.background = colors[Math.floor(Math.random() * colors.length)];
+      firework.style.width = '5px';
+      firework.style.height = '5px';
+      firework.style.left = x + 'px';
+      firework.style.top = y + 'px';
+    
+      document.body.appendChild(firework);
+
+      const angle = Math.random() * 2 * Math.PI;
+      const distance = Math.random() * 100 + 50;
+
+      const dx = Math.cos(angle) * distance;
+      const dy = Math.sin(angle) * distance;
+
+      firework.animate([
+        { transform: `translate(0px,0px)`, opacity: 1 },
+        { transform: `translate(${dx}px,${dy}px)`, opacity: 0 }
+      ], { duration: 1000, easing: 'ease-out' });
+
+      setTimeout(() => firework.remove(), 1000);
+    }
+  
+
+  // Fireworks every 1.5 seconds randomly
+  setInterval(() => {
+    const x = Math.random() * window.innerWidth;
+    const y = Math.random() * window.innerHeight / 2;
+    createFirework(x, y);
+  }, 1500);
+  
+
+    /* 🎶 START EXPERIENCE */
+ const music = document.getElementById('music');
+let isPlaying = false;
+
+function toggleMusic() {
+  if (!isPlaying) {
+    music.play().catch(err => console.log('Play blocked:', err));
+    isPlaying = true;
+  } else {
+    music.pause();
+    isPlaying = false;
+  }
+}
+
+  /* 🎊 Confetti */
+  setInterval(() => {
+    const confetti = document.createElement("div");
+    confetti.className = "confetti";
+    confetti.innerText = "🎊";
+    confetti.style.left = Math.random() * window.innerWidth + "px";
+    confetti.style.animationDuration = Math.random() * 3 + 2 + "s";
+    document.body.appendChild(confetti);
+    setTimeout(() => confetti.remove(), 5000);
+  }, 300);
+</script>
+
+</body>
+</html>
