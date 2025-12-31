@@ -5,9 +5,9 @@
 <title>Happy New Year Slideshow</title>
 
 <style>
-  body {
+ body {
     margin: 0;
-    height: 100vh;
+    min-height: 100vh; /* Changed to min-height for better scrolling on small screens */
     background: radial-gradient(circle at bottom, #020024, #090979, #000);
     display: flex;
     flex-direction: column;
@@ -15,13 +15,20 @@
     align-items: center;
     font-family: Arial, sans-serif;
     color: white;
-    overflow: hidden;
+    overflow-x: hidden; /* Prevent horizontal scroll */
+    padding: 20px 0; /* Space for mobile */
   }
 
   h1 {
-    margin-bottom: 10px;
-    font-size: 40px;
+    margin-bottom: 5px;
+    font-size: clamp(24px, 8vw, 45px); /* Responsive font: min 24px, grows with screen, max 45px */
     animation: glow 1.5s infinite alternate;
+    text-align: center;
+  }
+
+  h2 {
+    font-size: clamp(18px, 5vw, 30px);
+    margin-top: 0;
   }
 
   @keyframes glow {
@@ -29,16 +36,19 @@
     to { text-shadow: 0 0 30px gold; }
   }
 
-   /* Countdown */
   #countdown {
-    font-size: 28px;
+    font-size: clamp(18px, 4vw, 28px);
     margin-bottom: 15px;
     color: gold;
+    text-align: center;
   }
 
+  /* RESPONSIVE SLIDESHOW CONTAINER */
   .slideshow {
-    width: 320px;
-    height: 420px;
+    width: 85vw;      /* Uses 85% of screen width on mobile */
+    max-width: 450px; /* Limits size on desktop so it's not huge */
+    aspect-ratio: 3 / 4; /* Keeps the portrait shape consistent */
+    height: auto;     /* Height calculated by aspect ratio */
     border-radius: 20px;
     overflow: hidden;
     border: 4px solid gold;
@@ -59,8 +69,44 @@
     opacity: 1;
   }
 
-  input {
+  /* Buttons and Interaction */
+  button {
     margin-top: 20px;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 25px;
+    background: gold;
+    font-weight: bold;
+    font-size: 16px;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    transition: transform 0.2s;
+  }
+
+  button:active {
+    transform: scale(0.95);
+  }
+
+  /* Animation for confetti */
+  .confetti {
+    position: fixed;
+    top: -10px;
+    font-size: 16px;
+    user-select: none;
+    pointer-events: none;
+    animation: fall linear infinite;
+    z-index: 100;
+  }
+
+  @keyframes fall {
+    to { transform: translateY(110vh) rotate(360deg); }
+  }
+
+  .firework {
+    position: absolute;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 50;
   }
 
   /* Snow / Confetti */
@@ -175,7 +221,7 @@
 
 <!-- 🎶 Music -->
 <audio id="music" loop>
-  <source src="Christmas & New Year Songs.mp3" type="audio/mpeg">
+  <source src="Pinoy Reggae – Bagong Taon 🎉 .mp3" type="audio/mpeg">
   Your browser does not support audio.
 </audio>
 
